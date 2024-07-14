@@ -1,1 +1,1 @@
-web: python3 app.py 
+web: gunicorn -b :3000 app:app
