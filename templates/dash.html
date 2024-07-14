@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>GN Dashboard</title>
+    <style>
+        .flashes {
+            background: rgba(255, 227, 129, 0.5);
+            border: solid 1px rgb(255, 227, 129);
+            padding: 10px;
+            color: rgb(255, 227, 129);
+            border-radius: 5px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class=flashes>
+        {% for message in messages %}
+           <i class="fa-solid fa-circle-info"></i> {{ message }}
+        {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+    <h1>Welcome</h1>
+    <a href='/{{ vanity }}'>View your profile</a>
+    <h3>
+        General Settings
+    </h3>   
+    <form action='/settings' method='post' enctype="multipart/form-data">
+        <label for="username">Vanity:</label>
+        <input type="text" id="username" name="username" placeholder="{{ vanity }}" value="{{ vanity }}">
+        <br/><br/>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="{{ name }}" value="{{ name }}">
+        <br/><br/>
+        <label for="username">Quote:</label>
+        <input type="text" id="quote" name="quote" placeholder="{{ quote }}" value="{{ quote }}">
+        <br/><br/>
+        <button type="submit">Change Settings</button>
+    </form>
+
+    <h3>Change your Meme</h3>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file">Change your meme:</label>
+        <input type="file" id="file" name="file" accept="image/png">
+        <button type="submit">Upload</button>
+    </form>
+
+    <a href='/links'>
+        <button style='width: 100%'>Edit Your Links</button>
+    </a>
+</body>
+</html>
