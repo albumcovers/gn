@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Goodnight</title>
+    <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
+    <style>
+        .flashes {
+            background: rgba(255, 227, 129, 0.5);
+            border: solid 1px rgb(255, 227, 129);
+            padding: 10px;
+            color: rgb(255, 227, 129);
+            border-radius: 5px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class=flashes>
+    {% for message in messages %}
+       <i class="fa-solid fa-warning"></i> {{ message }}
+    {% endfor %}
+    </div>
+    {% endif %}
+{% endwith %}
+    <h2>Login</h2>
+    <form method="POST" action="/login">
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
