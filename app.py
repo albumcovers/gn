@@ -15,6 +15,8 @@ local_uid = ""
 
 @app.route('/')
 def index():
+    if 'user' in session:
+        return redirect('/dash')
     return render_template('index.html')
 
 @app.route('/links')
@@ -121,6 +123,8 @@ def user(vanity):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'user' in session:
+        return redirect('/dash')
     global local_uid
     if request.method == 'POST':
         email = request.form['email']
@@ -161,6 +165,8 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     global local_uid
+    if 'user' in session:
+       return redirect('/dash')
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -242,4 +248,4 @@ def upload():
         return redirect('/login')
 
 if __name__ == '__main__':
-    app.run(port=3000)
+    app.run('0.0.0.0', port=3000)
