@@ -17,7 +17,7 @@ data = {
 
 url = data["db_url"]
 key = data["service_role"]
-supabase = create_client(url, key)
+supabase = create_client(str(url), str(key))
 local_uid = ""
 
 @app.route('/')
@@ -99,7 +99,7 @@ def dashboard():
             name_ = str(data[0]["name"])
             quote = str(data[0]["quote"])
         except Exception as e:
-            flash(e)
+            flash(str(e))
             session.pop('user', None)
             return redirect('/login')
         return render_template('dash.html', vanity=name, name=name_, quote=quote)
