@@ -50,7 +50,6 @@ def link_add():
     key = request.form["key"]
     value = request.form["value"]
     links_save.update({ key: value })
-    print(links_save)
     supabase.from_("users").update({ "links": links_save }).eq("email", local_uid).execute()
 
     return redirect('/links')
@@ -109,6 +108,8 @@ def dashboard():
 @app.route('/<vanity>')
 def user(vanity):
     data = supabase.from_("users").select("*").eq("vanity", vanity).execute().data
+    if (not data) or (data == {}):
+        return 'person not available'
     meme = data[0]['meme']
     links = data[0]['links']
     badges = data[0]['badges']
@@ -187,8 +188,6 @@ def signup():
         table_name = 'users'
         vanity = ''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890') for _ in range(6))
         local_uid = str(email)
-        print(email)
-        print(local_uid)
         new_row = {
             'vanity': vanity,
             'name': 'New User',
