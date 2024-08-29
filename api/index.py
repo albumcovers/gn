@@ -1,8 +1,20 @@
 from flask import Flask, render_template, request, jsonify, redirect, session, flash
 from supabase import create_client
-from config import import_config
 import random
 import os
+
+config_ = {
+    "database_password": os.environ.get("DATABASE_PASSWORD"),
+    "public_api_key": os.environ.get("PUBLIC_API_KEY"),
+    "service_role": os.environ.get("SERVICE_ROLE"),
+    "db_url": os.environ.get("DB_URL"),
+    "jwt_secret": os.environ.get("JWT_SECRET"),
+}
+
+class config:
+    def import_config():
+        global config_
+        return config_
 
 app = Flask("goodnight v1")
 app.secret_key = os.urandom(24)
@@ -75,8 +87,8 @@ def edit_link(num):
     if 'user' in session:
         name = list(data[0]['links'].keys())[int(num)]
         value = data[0]['links'][name]
-    
-        return render_template("change_link.html", 
+
+        return render_template("change_link.html",
                                name=name,
                                value=value)
     else:
@@ -160,7 +172,7 @@ def login():
                 return redirect('/')
     else:
         return render_template('login.html')
-    
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -218,7 +230,7 @@ def settings():
         vanity = request.form["username"]
         name = request.form["name"]
         quote = request.form["quote"]
-        response = supabase.from_('users').update({ "vanity": vanity, "name": name, "quote": quote }).eq("email", local_uid).execute() 
+        response = supabase.from_('users').update({ "vanity": vanity, "name": name, "quote": quote }).eq("email", local_uid).execute()
         return redirect('/dashboard')
     else:
         return redirect('/login')
@@ -239,7 +251,7 @@ def upload():
                 response = supabase.storage.from_("memes").upload(file_path, file.read(), {
                     'content-type': 'image/png'
                 })
-                response = supabase.from_('users').update({ "meme": url }).eq("email", local_uid).execute()  
+                response = supabase.from_('users').update({ "meme": url }).eq("email", local_uid).execute()
                 flash('Successfully changed meme!')
                 return redirect('/dashboard')
             except Exception as e:
