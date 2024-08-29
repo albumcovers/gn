@@ -3,7 +3,11 @@ from supabase import create_client
 import random
 import os
 
-config_ = {
+
+app = Flask("goodnight v1")
+app.secret_key = os.urandom(24)
+
+data = {
     "database_password": os.environ.get("DATABASE_PASSWORD"),
     "public_api_key": os.environ.get("PUBLIC_API_KEY"),
     "service_role": os.environ.get("SERVICE_ROLE"),
@@ -11,15 +15,6 @@ config_ = {
     "jwt_secret": os.environ.get("JWT_SECRET"),
 }
 
-class config:
-    def import_config():
-        global config_
-        return config_
-
-app = Flask("goodnight v1")
-app.secret_key = os.urandom(24)
-
-data = import_config()
 url = data["db_url"]
 key = data["service_role"]
 supabase = create_client(url, key)
